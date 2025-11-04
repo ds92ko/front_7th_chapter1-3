@@ -11,6 +11,8 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
+    "test:storybook": "vitest --config vitest.storybook.config.ts",
+    "test:storybook:ui": "vitest --ui --config vitest.storybook.config.ts",
     "build": "tsc -b && vite build",
     "lint:eslint": "eslint . --ext ts,tsx --report-unused-disable-directives",
     "lint:tsc": "tsc --pretty",
@@ -48,6 +50,7 @@
     "@typescript-eslint/eslint-plugin": "^8.35.0",
     "@typescript-eslint/parser": "^8.35.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
+    "@vitest/browser": "3.2.4",
     "@vitest/coverage-v8": "^2.0.3",
     "@vitest/ui": "^3.2.4",
     "concurrently": "^8.2.2",
@@ -61,12 +64,20 @@
     "eslint-plugin-vitest": "^0.5.4",
     "globals": "16.3.0",
     "jsdom": "^26.1.0",
+    "msw-storybook-addon": "^2.0.6",
+    "playwright": "^1.56.1",
     "storybook": "^10.0.3",
     "typescript": "^5.2.2",
     "vite": "^7.0.2",
     "vite-plugin-eslint": "^1.8.1",
-    "vitest": "^3.2.4",
-    "playwright": "^1.56.1",
-    "@vitest/browser": "3.2.4"
+    "vitest": "^3.2.4"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  },
+  "resolutions": {
+    "jackspeak": "2.1.1"
   }
 }

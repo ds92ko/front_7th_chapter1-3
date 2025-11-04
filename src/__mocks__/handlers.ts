@@ -1,7 +1,9 @@
 import { http, HttpResponse } from 'msw';
 
-import { events } from '../__mocks__/response/events.json' assert { type: 'json' };
+import eventsData from '../__mocks__/response/events.json';
 import { Event } from '../types';
+
+const events = eventsData.events;
 
 export const handlers = [
   http.get('/api/events', () => {
