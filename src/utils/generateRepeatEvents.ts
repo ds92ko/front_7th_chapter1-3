@@ -1,5 +1,5 @@
-import { EventForm } from '../types';
-import { formatDate } from './dateUtils';
+import { EventForm } from '@/types';
+import { formatDate } from '@/utils/dateUtils';
 
 // ! TEST CASE
 export const generateRepeatEvents = (eventData: EventForm): EventForm[] => {

@@ -4,14 +4,14 @@ import { render, screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { SnackbarProvider } from 'notistack';
 import { ReactElement } from 'react';
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import {
   setupMockHandlerRecurringListDelete,
   setupMockHandlerRecurringListUpdate,
   setupMockHandlerUpdating,
-} from '../../__mocks__/handlersUtils';
-import App from '../../App';
+} from '@/__mocks__/handlersUtils';
+import App from '@/App';
 
 const theme = createTheme();
 

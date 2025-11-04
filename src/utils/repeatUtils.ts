@@ -1,4 +1,4 @@
-import { RepeatType } from '../types';
+import { RepeatType } from '@/types';
 
 export const getRepeatTypeLabel = (type: RepeatType): string => {
   switch (type) {

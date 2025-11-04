@@ -3,10 +3,10 @@ import { Dispatch, SetStateAction } from 'react';
 import { useArgs } from 'storybook/preview-api';
 import { fn } from 'storybook/test';
 
-import CalendarView from './CalendarView';
-import MonthView from './MonthView';
-import WeekView from './WeekView';
-import { Event } from '../../types';
+import CalendarView from '@/components/CalendarView/CalendarView';
+import MonthView from '@/components/CalendarView/MonthView';
+import WeekView from '@/components/CalendarView/WeekView';
+import { Event } from '@/types';
 
 const mockEvents: Event[] = [
   {

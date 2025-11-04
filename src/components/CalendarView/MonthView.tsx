@@ -12,10 +12,10 @@ import {
   Typography,
 } from '@mui/material';
 
-import { MonthViewProps } from './types';
-import { weekDays } from '../../constants';
-import { formatDate, formatMonth, getEventsForDay, getWeeksAtMonth } from '../../utils/dateUtils';
-import { getRepeatTypeLabel } from '../../utils/repeatUtils';
+import { MonthViewProps } from '@/components/CalendarView/types';
+import { weekDays } from '@/constants';
+import { formatDate, formatMonth, getEventsForDay, getWeeksAtMonth } from '@/utils/dateUtils';
+import { getRepeatTypeLabel } from '@/utils/repeatUtils';
 
 const MonthView = ({
   currentDate,

@@ -1,6 +1,6 @@
 import { Dispatch, ReactNode, SetStateAction } from 'react';
 
-import { Event } from '../../types';
+import { Event } from '@/types';
 
 export interface WeekViewProps {
   currentDate: Date;

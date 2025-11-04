@@ -12,11 +12,11 @@ import {
   Typography,
 } from '@mui/material';
 
-import { WeekViewProps } from './types';
-import { weekDays } from '../../constants';
-import { eventBoxStyles } from '../../styles';
-import { formatDate, formatWeek, getWeekDates } from '../../utils/dateUtils';
-import { getRepeatTypeLabel } from '../../utils/repeatUtils';
+import { WeekViewProps } from '@/components/CalendarView/types';
+import { weekDays } from '@/constants';
+import { eventBoxStyles } from '@/styles';
+import { formatDate, formatWeek, getWeekDates } from '@/utils/dateUtils';
+import { getRepeatTypeLabel } from '@/utils/repeatUtils';
 
 const WeekView = ({ currentDate, setDate, filteredEvents, notifiedEvents }: WeekViewProps) => {
   const weekDates = getWeekDates(currentDate);

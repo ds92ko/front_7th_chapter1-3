@@ -1,8 +1,8 @@
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 
-import { Event, EventForm } from '../types';
-import { generateRepeatEvents } from '../utils/generateRepeatEvents';
+import { Event, EventForm } from '@/types';
+import { generateRepeatEvents } from '@/utils/generateRepeatEvents';
 
 // 에러 메시지 상수
 const ERROR_MESSAGES = {

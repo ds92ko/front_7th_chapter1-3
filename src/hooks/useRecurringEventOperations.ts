@@ -1,6 +1,6 @@
 /* global RequestInit */
 
-import { Event } from '../types';
+import { Event } from '@/types';
 
 /**
  * API endpoints for recurring event operations

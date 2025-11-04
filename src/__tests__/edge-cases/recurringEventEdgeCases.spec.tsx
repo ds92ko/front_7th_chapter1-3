@@ -1,10 +1,9 @@
-import { render, screen } from '@testing-library/react';
-import { renderHook, act } from '@testing-library/react';
+import { act, render, renderHook, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 
-import RecurringEventDialog from '../../components/RecurringEventDialog';
-import { useRecurringEventOperations } from '../../hooks/useRecurringEventOperations';
-import { Event } from '../../types';
+import RecurringEventDialog from '@/components/RecurringEventDialog';
+import { useRecurringEventOperations } from '@/hooks/useRecurringEventOperations';
+import { Event } from '@/types';
 
 const mockEvent: Event = {
   id: '1',

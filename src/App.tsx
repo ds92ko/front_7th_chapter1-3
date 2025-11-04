@@ -24,21 +24,21 @@ import {
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 
-import CalendarView from './components/CalendarView/CalendarView.tsx';
-import MonthView from './components/CalendarView/MonthView.tsx';
-import WeekView from './components/CalendarView/WeekView.tsx';
-import RecurringEventDialog from './components/RecurringEventDialog.tsx';
-import { categories, notificationOptions } from './constants.ts';
-import { useCalendarView } from './hooks/useCalendarView.ts';
-import { useEventForm } from './hooks/useEventForm.ts';
-import { useEventOperations } from './hooks/useEventOperations.ts';
-import { useNotifications } from './hooks/useNotifications.ts';
-import { useRecurringEventOperations } from './hooks/useRecurringEventOperations.ts';
-import { useSearch } from './hooks/useSearch.ts';
-import { Event, EventForm, RepeatType } from './types.ts';
-import { findOverlappingEvents } from './utils/eventOverlap.ts';
-import { getRepeatTypeLabel } from './utils/repeatUtils.ts';
-import { getTimeErrorMessage } from './utils/timeValidation.ts';
+import CalendarView from '@/components/CalendarView/CalendarView.tsx';
+import MonthView from '@/components/CalendarView/MonthView.tsx';
+import WeekView from '@/components/CalendarView/WeekView.tsx';
+import RecurringEventDialog from '@/components/RecurringEventDialog.tsx';
+import { categories, notificationOptions } from '@/constants.ts';
+import { useCalendarView } from '@/hooks/useCalendarView.ts';
+import { useEventForm } from '@/hooks/useEventForm.ts';
+import { useEventOperations } from '@/hooks/useEventOperations.ts';
+import { useNotifications } from '@/hooks/useNotifications.ts';
+import { useRecurringEventOperations } from '@/hooks/useRecurringEventOperations.ts';
+import { useSearch } from '@/hooks/useSearch.ts';
+import { Event, EventForm, RepeatType } from '@/types.ts';
+import { findOverlappingEvents } from '@/utils/eventOverlap.ts';
+import { getRepeatTypeLabel } from '@/utils/repeatUtils.ts';
+import { getTimeErrorMessage } from '@/utils/timeValidation.ts';
 
 function App() {
   const {

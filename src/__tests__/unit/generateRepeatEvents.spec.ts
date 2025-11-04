@@ -1,5 +1,5 @@
-import { Event } from '../../types';
-import { generateRepeatEvents } from '../../utils/generateRepeatEvents';
+import { Event } from '@/types';
+import { generateRepeatEvents } from '@/utils/generateRepeatEvents';
 
 describe('제약 조건', () => {
   it('반복 없는 이벤트는 단일 이벤트로 배열에 담겨 반환된다', () => {

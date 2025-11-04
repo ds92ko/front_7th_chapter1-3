@@ -1,14 +1,14 @@
 import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { render, screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 import { SnackbarProvider } from 'notistack';
 import { ReactElement } from 'react';
 
-import { setupMockHandlerListCreation } from '../../__mocks__/handlersUtils';
-import App from '../../App';
-import { server } from '../../setupTests';
+import { setupMockHandlerListCreation } from '@/__mocks__/handlersUtils';
+import App from '@/App';
+import { server } from '@/setupTests';
 
 const theme = createTheme();
 
