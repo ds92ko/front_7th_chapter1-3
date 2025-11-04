@@ -20,3 +20,9 @@ export interface CalendarViewProps {
   weekView: ReactNode;
   monthView: ReactNode;
 }
+
+export interface EventCardProps {
+  event: Event;
+  isNotified: boolean;
+  isRepeating: boolean;
+}

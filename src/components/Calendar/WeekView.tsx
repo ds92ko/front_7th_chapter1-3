@@ -1,6 +1,4 @@
-import { Notifications, Repeat } from '@mui/icons-material';
 import {
-  Box,
   Stack,
   Table,
   TableBody,
@@ -8,15 +6,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Tooltip,
   Typography,
 } from '@mui/material';
 
-import { WeekViewProps } from '@/components/CalendarView/types';
+import EventCard from '@/components/Calendar/EventCard';
+import { WeekViewProps } from '@/components/Calendar/types';
 import { weekDays } from '@/constants';
-import { eventBoxStyles } from '@/styles';
 import { formatDate, formatWeek, getWeekDates } from '@/utils/dateUtils';
-import { getRepeatTypeLabel } from '@/utils/repeatUtils';
 
 const WeekView = ({ currentDate, setDate, filteredEvents, notifiedEvents }: WeekViewProps) => {
   const weekDates = getWeekDates(currentDate);
@@ -60,36 +56,12 @@ const WeekView = ({ currentDate, setDate, filteredEvents, notifiedEvents }: Week
                       const isRepeating = event.repeat.type !== 'none';
 
                       return (
-                        <Box
+                        <EventCard
                           key={event.id}
-                          sx={{
-                            ...eventBoxStyles.common,
-                            ...(isNotified ? eventBoxStyles.notified : eventBoxStyles.normal),
-                          }}
-                        >
-                          <Stack direction="row" spacing={1} alignItems="center">
-                            {isNotified && <Notifications fontSize="small" />}
-                            {/* ! TEST CASE */}
-                            {isRepeating && (
-                              <Tooltip
-                                title={`${event.repeat.interval}${getRepeatTypeLabel(
-                                  event.repeat.type
-                                )}마다 반복${
-                                  event.repeat.endDate ? ` (종료: ${event.repeat.endDate})` : ''
-                                }`}
-                              >
-                                <Repeat fontSize="small" />
-                              </Tooltip>
-                            )}
-                            <Typography
-                              variant="caption"
-                              noWrap
-                              sx={{ fontSize: '0.75rem', lineHeight: 1.2 }}
-                            >
-                              {event.title}
-                            </Typography>
-                          </Stack>
-                        </Box>
+                          event={event}
+                          isNotified={isNotified}
+                          isRepeating={isRepeating}
+                        />
                       );
                     })}
                 </TableCell>

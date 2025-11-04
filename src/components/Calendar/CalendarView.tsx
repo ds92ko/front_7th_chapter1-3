@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { IconButton, MenuItem, Select, Stack, Typography } from '@mui/material';
 
-import { CalendarViewProps } from '@/components/CalendarView/types';
+import { CalendarViewProps } from '@/components/Calendar/types';
 
 const CalendarView = ({ view, setView, navigate, weekView, monthView }: CalendarViewProps) => {
   return (

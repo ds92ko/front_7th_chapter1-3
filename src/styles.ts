@@ -17,5 +17,6 @@ export const eventBoxStyles = {
     minHeight: '18px',
     width: '100%',
     overflow: 'hidden',
+    boxSizing: 'border-box',
   },
 };

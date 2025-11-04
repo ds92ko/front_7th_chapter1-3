@@ -24,9 +24,9 @@ import {
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 
-import CalendarView from '@/components/CalendarView/CalendarView.tsx';
-import MonthView from '@/components/CalendarView/MonthView.tsx';
-import WeekView from '@/components/CalendarView/WeekView.tsx';
+import CalendarView from '@/components/Calendar/CalendarView';
+import MonthView from '@/components/Calendar/MonthView';
+import WeekView from '@/components/Calendar/WeekView';
 import RecurringEventDialog from '@/components/RecurringEventDialog.tsx';
 import { categories, notificationOptions } from '@/constants.ts';
 import { useCalendarView } from '@/hooks/useCalendarView.ts';
