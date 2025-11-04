@@ -13,7 +13,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
@@ -31,7 +31,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
@@ -42,9 +42,7 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install
-      - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
-      - name: Run tests
-        run: pnpm run test
+      - name: test basic
+        run: |
+          pnpm install
+          pnpm run test
