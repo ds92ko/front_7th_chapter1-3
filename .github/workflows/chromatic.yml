@@ -1,11 +1,14 @@
 name: 'Chromatic'
 
 on:
-  pull_request_target:
+  pull_request:
     types:
       - synchronize
       - opened
       - reopened
+
+  workflow_dispatch:
+
 jobs:
   chromatic:
     name: Run Chromatic
