@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Dispatch, SetStateAction } from 'react';
+import { useArgs } from 'storybook/preview-api';
 import { fn } from 'storybook/test';
 
 import CalendarView from './CalendarView';
@@ -34,7 +36,7 @@ const mockEvents: Event[] = [
 ];
 
 const meta = {
-  title: 'Components/CalendarView',
+  title: '캘린더/일정 보기',
   component: CalendarView,
   parameters: {
     layout: 'padded',
@@ -61,19 +63,55 @@ const meta = {
       />
     ),
   },
+  argTypes: {
+    view: {
+      control: 'select',
+      options: ['week', 'month'],
+      description: '캘린더 뷰 타입',
+    },
+    setView: {
+      action: 'setView',
+      description: '뷰 타입 변경 함수',
+    },
+    navigate: {
+      action: 'navigate',
+      description: '날짜 이동 함수',
+    },
+    weekView: {
+      control: false,
+      description: '주간 뷰 컴포넌트',
+    },
+    monthView: {
+      control: false,
+      description: '월간 뷰 컴포넌트',
+    },
+  },
+  render: function Render(args) {
+    const [{ view }, updateArgs] = useArgs();
+
+    const setView = (newView: 'week' | 'month') => {
+      updateArgs({ view: newView });
+    };
+
+    return (
+      <CalendarView
+        {...args}
+        view={view}
+        setView={setView as Dispatch<SetStateAction<'week' | 'month'>>}
+      />
+    );
+  },
 } satisfies Meta<typeof CalendarView>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Week: Story = {
-  args: {
-    view: 'week',
-  },
+export const Month: Story = {
+  name: '월간 뷰',
+  args: { view: 'month' },
 };
 
-export const Month: Story = {
-  args: {
-    view: 'month',
-  },
+export const Week: Story = {
+  name: '주간 뷰',
+  args: { view: 'week' },
 };
