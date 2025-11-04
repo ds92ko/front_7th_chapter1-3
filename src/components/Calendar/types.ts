@@ -17,8 +17,18 @@ export interface CalendarViewProps {
   view: 'week' | 'month';
   setView: Dispatch<SetStateAction<'week' | 'month'>>;
   navigate: (_direction: 'prev' | 'next') => void;
+  onEventDrop: (_event: Event) => void;
+  notifiedEvents: string[];
   weekView: ReactNode;
   monthView: ReactNode;
+}
+
+export interface DayCellProps {
+  day: number | null;
+  dateString: string;
+  holiday?: string;
+  onClick: () => void;
+  children: ReactNode;
 }
 
 export interface EventCardProps {

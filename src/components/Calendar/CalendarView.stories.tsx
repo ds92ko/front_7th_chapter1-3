@@ -45,6 +45,8 @@ const meta = {
   args: {
     setView: fn(),
     navigate: fn(),
+    onEventDrop: fn(),
+    notifiedEvents: [],
     weekView: (
       <WeekView
         currentDate={new Date('2024-11-04')}
@@ -76,6 +78,14 @@ const meta = {
     navigate: {
       action: 'navigate',
       description: '날짜 이동 함수',
+    },
+    onEventDrop: {
+      action: 'onEventDrop',
+      description: '이벤트 드롭 함수',
+    },
+    notifiedEvents: {
+      control: false,
+      description: '알림 이벤트 목록',
     },
     weekView: {
       control: false,

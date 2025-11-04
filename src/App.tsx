@@ -150,6 +150,10 @@ function App() {
     }
   };
 
+  const handleEventDrop = async (event: Event) => {
+    if (event) await saveEvent(event);
+  };
+
   const addOrUpdateEvent = async () => {
     if (!title || !date || !startTime || !endTime) {
       enqueueSnackbar('필수 정보를 모두 입력해주세요.', { variant: 'error' });
@@ -423,6 +427,8 @@ function App() {
           view={view}
           setView={setView}
           navigate={navigate}
+          notifiedEvents={notifiedEvents}
+          onEventDrop={handleEventDrop}
           weekView={
             <WeekView
               currentDate={currentDate}

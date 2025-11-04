@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 
+import DayCell from '@/components/Calendar/DayCell';
 import EventCard from '@/components/Calendar/EventCard';
 import { MonthViewProps } from '@/components/Calendar/types';
 import { weekDays } from '@/constants';
@@ -45,29 +46,15 @@ const MonthView = ({
                   const holiday = holidays[dateString];
 
                   return (
-                    <TableCell
+                    <DayCell
                       key={dayIndex}
-                      sx={{
-                        height: '120px',
-                        verticalAlign: 'top',
-                        width: '14.28%',
-                        padding: 1,
-                        border: '1px solid #e0e0e0',
-                        overflow: 'hidden',
-                        position: 'relative',
-                      }}
+                      day={day}
+                      dateString={dateString}
+                      holiday={holiday}
                       onClick={() => setDate(dateString)}
                     >
                       {day && (
                         <>
-                          <Typography variant="body2" fontWeight="bold">
-                            {day}
-                          </Typography>
-                          {holiday && (
-                            <Typography variant="body2" color="error">
-                              {holiday}
-                            </Typography>
-                          )}
                           {getEventsForDay(filteredEvents, day).map((event) => {
                             const isNotified = notifiedEvents.includes(event.id);
                             const isRepeating = event.repeat.type !== 'none';
@@ -83,7 +70,7 @@ const MonthView = ({
                           })}
                         </>
                       )}
-                    </TableCell>
+                    </DayCell>
                   );
                 })}
               </TableRow>

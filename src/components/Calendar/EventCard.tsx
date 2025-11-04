@@ -1,3 +1,4 @@
+import { useDraggable } from '@dnd-kit/core';
 import { Notifications, Repeat } from '@mui/icons-material';
 import { Box, Stack, Tooltip, Typography } from '@mui/material';
 
@@ -6,12 +7,20 @@ import { eventBoxStyles } from '@/styles';
 import { getRepeatTypeLabel } from '@/utils/repeatUtils';
 
 const EventCard = ({ event, isNotified, isRepeating }: EventCardProps) => {
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: event.id,
+    data: { event },
+  });
+
   return (
     <Box
-      key={event.id}
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
       sx={{
         ...eventBoxStyles.common,
         ...(isNotified ? eventBoxStyles.notified : eventBoxStyles.normal),
+        opacity: isDragging ? 0 : 1,
       }}
     >
       <Stack direction="row" spacing={1} alignItems="center">

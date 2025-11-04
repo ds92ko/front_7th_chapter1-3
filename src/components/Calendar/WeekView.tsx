@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 
+import DayCell from '@/components/Calendar/DayCell';
 import EventCard from '@/components/Calendar/EventCard';
 import { WeekViewProps } from '@/components/Calendar/types';
 import { weekDays } from '@/constants';
@@ -33,39 +34,36 @@ const WeekView = ({ currentDate, setDate, filteredEvents, notifiedEvents }: Week
           </TableHead>
           <TableBody>
             <TableRow>
-              {weekDates.map((date) => (
-                <TableCell
-                  key={date.toISOString()}
-                  sx={{
-                    height: '120px',
-                    verticalAlign: 'top',
-                    width: '14.28%',
-                    padding: 1,
-                    border: '1px solid #e0e0e0',
-                    overflow: 'hidden',
-                  }}
-                  onClick={() => setDate(formatDate(date, date.getDate()))}
-                >
-                  <Typography variant="body2" fontWeight="bold">
-                    {date.getDate()}
-                  </Typography>
-                  {filteredEvents
-                    .filter((event) => new Date(event.date).toDateString() === date.toDateString())
-                    .map((event) => {
-                      const isNotified = notifiedEvents.includes(event.id);
-                      const isRepeating = event.repeat.type !== 'none';
+              {weekDates.map((date) => {
+                const dateString = formatDate(date, date.getDate());
 
-                      return (
-                        <EventCard
-                          key={event.id}
-                          event={event}
-                          isNotified={isNotified}
-                          isRepeating={isRepeating}
-                        />
-                      );
-                    })}
-                </TableCell>
-              ))}
+                return (
+                  <DayCell
+                    key={date.toISOString()}
+                    day={date.getDate()}
+                    dateString={dateString}
+                    onClick={() => setDate(dateString)}
+                  >
+                    {filteredEvents
+                      .filter(
+                        (event) => new Date(event.date).toDateString() === date.toDateString()
+                      )
+                      .map((event) => {
+                        const isNotified = notifiedEvents.includes(event.id);
+                        const isRepeating = event.repeat.type !== 'none';
+
+                        return (
+                          <EventCard
+                            key={event.id}
+                            event={event}
+                            isNotified={isNotified}
+                            isRepeating={isRepeating}
+                          />
+                        );
+                      })}
+                  </DayCell>
+                );
+              })}
             </TableRow>
           </TableBody>
         </Table>
