@@ -1,9 +1,9 @@
-import { EventForm } from '@/types';
+import { EventFormData } from '@/types';
 import { formatDate } from '@/utils/dateUtils';
 
 // ! TEST CASE
-export const generateRepeatEvents = (eventData: EventForm): EventForm[] => {
-  const events: EventForm[] = [];
+export const generateRepeatEvents = (eventData: EventFormData): EventFormData[] => {
+  const events: EventFormData[] = [];
   const maxEndDate = new Date('2025-12-30');
   const startDate = new Date(eventData.date);
   const endDate = eventData.repeat.endDate ? new Date(eventData.repeat.endDate) : maxEndDate;

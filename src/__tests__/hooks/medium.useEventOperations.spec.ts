@@ -8,7 +8,7 @@ import {
 } from '@/__mocks__/handlersUtils.ts';
 import { useEventOperations } from '@/hooks/useEventOperations.ts';
 import { server } from '@/setupTests.ts';
-import { Event, EventForm } from '@/types.ts';
+import { Event, EventFormData } from '@/types.ts';
 
 const enqueueSnackbarFn = vi.fn();
 
@@ -51,7 +51,7 @@ it('정의된 이벤트 정보를 기준으로 적절하게 저장이 된다', a
   await act(() => Promise.resolve(null));
 
   // 이벤트 추가일 경우 ID가 없는 EventForm 타입을 사용
-  const newEvent: EventForm = {
+  const newEvent: EventFormData = {
     title: '새 회의',
     date: '2025-10-16',
     startTime: '11:00',

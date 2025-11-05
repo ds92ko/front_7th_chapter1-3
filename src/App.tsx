@@ -30,7 +30,7 @@ import { useEventOperations } from '@/hooks/useEventOperations.ts';
 import { useNotifications } from '@/hooks/useNotifications.ts';
 import { useRecurringEventOperations } from '@/hooks/useRecurringEventOperations.ts';
 import { useSearch } from '@/hooks/useSearch.ts';
-import { Event, EventForm, RepeatType } from '@/types.ts';
+import { Event, EventFormData, RepeatType } from '@/types.ts';
 import { findOverlappingEvents } from '@/utils/eventOverlap.ts';
 import { getRepeatTypeLabel } from '@/utils/repeatUtils.ts';
 import { getTimeErrorMessage } from '@/utils/timeValidation.ts';
@@ -160,7 +160,7 @@ function App() {
       return;
     }
 
-    const eventData: Event | EventForm = {
+    const eventData: Event | EventFormData = {
       id: editingEvent ? editingEvent.id : undefined,
       title,
       date,

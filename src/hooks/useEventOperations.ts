@@ -1,7 +1,7 @@
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 
-import { Event, EventForm } from '@/types';
+import { Event, EventFormData } from '@/types';
 import { generateRepeatEvents } from '@/utils/generateRepeatEvents';
 
 // 에러 메시지 상수
@@ -37,7 +37,7 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
     }
   };
 
-  const saveEvent = async (eventData: Event | EventForm) => {
+  const saveEvent = async (eventData: Event | EventFormData) => {
     try {
       let response;
       const isEditing = editing || !!(eventData as Event).id;
@@ -97,7 +97,7 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
     }
   };
 
-  const createRepeatEvent = async (eventData: EventForm) => {
+  const createRepeatEvent = async (eventData: EventFormData) => {
     try {
       const newEvents = generateRepeatEvents(eventData);
       const response = await fetch('/api/events-list', {
