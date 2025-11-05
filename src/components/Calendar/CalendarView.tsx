@@ -18,16 +18,13 @@ const CalendarView = ({
   onEventDrop,
 }: CalendarViewProps) => {
   const [activeEvent, setActiveEvent] = useState<Event | null>(null);
-  const [dropAnimation, setDropAnimation] = useState(true);
 
   const handleDragStart = (event: DragStartEvent) => {
-    setDropAnimation(true);
     setActiveEvent(event.active.data.current?.event);
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
     setActiveEvent(null);
-    setDropAnimation(!event.over?.id);
     if (event.over && activeEvent && onEventDrop) {
       const date = event.over.data.current?.dateString;
 
@@ -66,21 +63,13 @@ const CalendarView = ({
         {view === 'week' && weekView}
         {view === 'month' && monthView}
         {createPortal(
-          <DragOverlay
-            dropAnimation={
-              dropAnimation
-                ? {
-                    duration: 250,
-                    easing: 'ease-in-out',
-                  }
-                : null
-            }
-          >
+          <DragOverlay>
             {activeEvent && (
               <EventCard
                 event={activeEvent}
                 isNotified={notifiedEvents.includes(activeEvent.id)}
                 isRepeating={activeEvent.repeat.type !== 'none'}
+                isOverlay
               />
             )}
           </DragOverlay>,

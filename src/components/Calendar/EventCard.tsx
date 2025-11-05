@@ -6,7 +6,7 @@ import { EventCardProps } from '@/components/Calendar/types';
 import { eventBoxStyles } from '@/styles';
 import { getRepeatTypeLabel } from '@/utils/repeatUtils';
 
-const EventCard = ({ event, isNotified, isRepeating }: EventCardProps) => {
+const EventCard = ({ event, isNotified, isRepeating, isOverlay }: EventCardProps) => {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: event.id,
     data: { event },
@@ -14,13 +14,14 @@ const EventCard = ({ event, isNotified, isRepeating }: EventCardProps) => {
 
   return (
     <Box
-      ref={setNodeRef}
-      {...listeners}
-      {...attributes}
+      ref={!isOverlay ? setNodeRef : undefined}
+      {...(!isOverlay && { ...listeners, ...attributes })}
       sx={{
         ...eventBoxStyles.common,
         ...(isNotified ? eventBoxStyles.notified : eventBoxStyles.normal),
-        opacity: isDragging ? 0 : 1,
+        opacity: !isOverlay && isDragging ? 0 : 1,
+        cursor: isOverlay ? 'grabbing' : 'grab',
+        boxShadow: isOverlay ? 3 : 'none',
       }}
     >
       <Stack direction="row" spacing={1} alignItems="center">

@@ -35,4 +35,5 @@ export interface EventCardProps {
   event: Event;
   isNotified: boolean;
   isRepeating: boolean;
+  isOverlay?: boolean;
 }

@@ -74,10 +74,8 @@ function App() {
     editEvent,
   } = useEventForm();
 
-  const { events, saveEvent, deleteEvent, createRepeatEvent, fetchEvents } = useEventOperations(
-    Boolean(editingEvent),
-    () => setEditingEvent(null)
-  );
+  const { events, setEvents, saveEvent, deleteEvent, createRepeatEvent, fetchEvents } =
+    useEventOperations(Boolean(editingEvent), () => setEditingEvent(null));
 
   const { handleRecurringEdit, handleRecurringDelete } = useRecurringEventOperations(
     events,
@@ -151,7 +149,9 @@ function App() {
   };
 
   const handleEventDrop = async (event: Event) => {
-    if (event) await saveEvent(event);
+    if (!event) return;
+    setEvents((prev: Event[]) => prev.map((e: Event) => (e.id === event.id ? event : e)));
+    await saveEvent(event);
   };
 
   const addOrUpdateEvent = async () => {
