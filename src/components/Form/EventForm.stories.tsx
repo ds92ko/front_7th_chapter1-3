@@ -194,6 +194,48 @@ export const AddRepeatingTimeError: Story = {
   },
 };
 
+export const EditEmpty: Story = {
+  name: '일정 수정 - 입력 없음',
+  args: {
+    data: {
+      title: '',
+      date: '',
+      startTime: '',
+      endTime: '',
+      description: '',
+      location: '',
+      category: '업무',
+      isRepeating: false,
+      repeat: {
+        type: 'weekly',
+        interval: 1,
+        endDate: '2025-12-20',
+      },
+      notificationTime: 10,
+    },
+    errors: {
+      startTime: null,
+      endTime: null,
+    },
+    editingEvent: {
+      id: '1',
+      title: '항해 오프라인',
+      date: '2025-11-08',
+      startTime: '12:00',
+      endTime: '18:00',
+      description: '항해 7기 발제 오프라인',
+      location: '아이콘역삼빌딩',
+      category: '개인',
+      repeat: {
+        type: 'weekly',
+        interval: 1,
+        endDate: '2025-12-20',
+      },
+      notificationTime: 120,
+    },
+  },
+};
+
 export const EditFilled: Story = {
   name: '일정 수정 - 일정 입력',
   args: {
