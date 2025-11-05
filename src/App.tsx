@@ -1,7 +1,5 @@
-import { Close, Delete, Edit, Notifications, Repeat } from '@mui/icons-material';
+import { Delete, Edit, Notifications, Repeat } from '@mui/icons-material';
 import {
-  Alert,
-  AlertTitle,
   Box,
   Button,
   Checkbox,
@@ -24,6 +22,7 @@ import MonthView from '@/components/Calendar/MonthView';
 import WeekView from '@/components/Calendar/WeekView';
 import OverlapEventDialog from '@/components/Dialog/OverlapEventDialog';
 import RecurringEventDialog from '@/components/Dialog/RecurringEventDialog';
+import NotificationStack from '@/components/Stack/NotificationStack';
 import { categories, notificationOptions } from '@/constants.ts';
 import { useCalendarView } from '@/hooks/useCalendarView.ts';
 import { useEventForm } from '@/hooks/useEventForm.ts';
@@ -567,25 +566,10 @@ function App() {
       />
 
       {notifications.length > 0 && (
-        <Stack position="fixed" top={16} right={16} spacing={2} alignItems="flex-end">
-          {notifications.map((notification, index) => (
-            <Alert
-              key={index}
-              severity="info"
-              sx={{ width: 'auto' }}
-              action={
-                <IconButton
-                  size="small"
-                  onClick={() => setNotifications((prev) => prev.filter((_, i) => i !== index))}
-                >
-                  <Close />
-                </IconButton>
-              }
-            >
-              <AlertTitle>{notification.message}</AlertTitle>
-            </Alert>
-          ))}
-        </Stack>
+        <NotificationStack
+          notifications={notifications}
+          onClose={(index) => setNotifications((prev) => prev.filter((_, i) => i !== index))}
+        />
       )}
     </Box>
   );
