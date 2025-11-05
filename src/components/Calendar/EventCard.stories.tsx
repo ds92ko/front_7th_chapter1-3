@@ -149,3 +149,107 @@ export const OverlayNotifiedRepeating: Story = {
     isOverlay: true,
   },
 };
+
+export const DefaultLongText: Story = {
+  name: '긴 제목 - 기본 일정',
+  args: {
+    event: {
+      ...repeatEvent,
+      title: '항해 플러스 프론트엔드 7기 주간 오프라인 발제 및 중간 네트워킹',
+    },
+    isNotified: false,
+    isRepeating: false,
+    isOverlay: false,
+  },
+};
+
+export const NotifiedLongText: Story = {
+  name: '긴 제목 - 기본 일정알림 일정',
+  args: {
+    event: {
+      ...repeatEvent,
+      title: '항해 플러스 프론트엔드 7기 주간 오프라인 발제 및 중간 네트워킹',
+    },
+    isNotified: true,
+    isRepeating: false,
+    isOverlay: false,
+  },
+};
+
+export const RepeatingLongText: Story = {
+  name: '긴 제목 - 반복 일정',
+  args: {
+    event: {
+      ...repeatEvent,
+      title: '항해 플러스 프론트엔드 7기 주간 오프라인 발제 및 중간 네트워킹',
+    },
+    isNotified: false,
+    isRepeating: true,
+    isOverlay: false,
+  },
+};
+
+export const NotifiedRepeatingLongText: Story = {
+  name: '긴 제목 - 반복 알림 일정',
+  args: {
+    event: {
+      ...repeatEvent,
+      title: '항해 플러스 프론트엔드 7기 주간 오프라인 발제 및 중간 네트워킹',
+    },
+    isNotified: true,
+    isRepeating: true,
+    isOverlay: false,
+  },
+};
+
+export const OverlayLongText: Story = {
+  name: '긴 제목 - 드래그 상태 일정',
+  args: {
+    event: {
+      ...repeatEvent,
+      title: '항해 플러스 프론트엔드 7기 주간 오프라인 발제 및 중간 네트워킹',
+    },
+    isNotified: false,
+    isRepeating: false,
+    isOverlay: true,
+  },
+};
+
+export const OverlayNotifiedLongText: Story = {
+  name: '긴 제목 - 드래그 상태 알림 일정',
+  args: {
+    event: {
+      ...repeatEvent,
+      title: '항해 플러스 프론트엔드 7기 주간 오프라인 발제 및 중간 네트워킹',
+    },
+    isNotified: true,
+    isRepeating: false,
+    isOverlay: true,
+  },
+};
+
+export const OverlayRepeatingLongText: Story = {
+  name: '긴 제목 - 드래그 상태 반복 일정',
+  args: {
+    event: {
+      ...repeatEvent,
+      title: '항해 플러스 프론트엔드 7기 주간 오프라인 발제 및 중간 네트워킹',
+    },
+    isNotified: false,
+    isRepeating: true,
+    isOverlay: true,
+  },
+};
+
+export const OverlayNotifiedRepeatingLongText: Story = {
+  name: '긴 제목 - 드래그 상태 반복 알림 일정',
+  args: {
+    event: {
+      ...repeatEvent,
+      title: '항해 플러스 프론트엔드 7기 주간 오프라인 발제 및 중간 네트워킹',
+    },
+    isNotified: true,
+    isRepeating: true,
+    isOverlay: true,
+  },
+};
