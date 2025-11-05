@@ -38,9 +38,16 @@ const meta = {
     chromatic: {
       delay: 300,
     },
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: 500,
+      },
+    },
   },
   tags: ['autodocs'],
   args: {
+    open: true,
     onClose: fn(),
     onConfirm: fn(),
   },
@@ -70,33 +77,13 @@ type Story = StoryObj<typeof meta>;
 export const Single: Story = {
   name: '단일 일정 겹침',
   args: {
-    open: true,
     events: [defaultEvent],
-  },
-  parameters: {
-    chromatic: { delay: 300 },
-    docs: {
-      story: {
-        inline: false,
-        iframeHeight: 500,
-      },
-    },
   },
 };
 
 export const Multiple: Story = {
   name: '복수 일정 겹침',
   args: {
-    open: true,
     events: [defaultEvent, repeatEvent],
-  },
-  parameters: {
-    chromatic: { delay: 300 },
-    docs: {
-      story: {
-        inline: false,
-        iframeHeight: 500,
-      },
-    },
   },
 };

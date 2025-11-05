@@ -35,6 +35,9 @@ const meta = {
   component: EventCard,
   parameters: {
     layout: 'centered',
+    chromatic: {
+      delay: 300,
+    },
   },
   tags: ['autodocs'],
   argTypes: {

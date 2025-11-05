@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Dispatch, SetStateAction } from 'react';
-import { useArgs } from 'storybook/preview-api';
 import { fn } from 'storybook/test';
 
 import CalendarView from '@/components/Calendar/CalendarView';
@@ -94,6 +92,9 @@ const meta = {
   component: CalendarView,
   parameters: {
     layout: 'padded',
+    chromatic: {
+      delay: 300,
+    },
   },
   tags: ['autodocs'],
   args: {
@@ -150,29 +151,16 @@ const meta = {
       description: '월간 뷰 컴포넌트',
     },
   },
-  render: function Render(args) {
-    const [, updateArgs] = useArgs();
-
-    const setView = (newView: 'week' | 'month') => {
-      updateArgs({ view: newView });
-    };
-
-    return (
-      <CalendarView
-        {...args}
-        view={args.view}
-        setView={setView as Dispatch<SetStateAction<'week' | 'month'>>}
-      />
-    );
-  },
 } satisfies Meta<typeof CalendarView>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Week: Story = {
-  name: '주간 뷰',
-  args: { view: 'week' },
+export const WeekEmpty: Story = {
+  name: '주간 뷰 - 일정 없음',
+  args: {
+    view: 'week',
+  },
 };
 
 export const WeekWithEvents: Story = {
@@ -184,49 +172,34 @@ export const WeekWithEvents: Story = {
         currentDate={new Date('2025-11-15')}
         setDate={fn()}
         filteredEvents={mockEvents}
-        notifiedEvents={['3']}
+        notifiedEvents={['6']}
       />
     ),
-    monthView: (
-      <MonthView
-        currentDate={new Date('2025-11-15')}
-        holidays={{}}
-        setDate={fn()}
-        filteredEvents={mockEvents}
-        notifiedEvents={['3']}
-      />
-    ),
-    notifiedEvents: ['3'],
+    notifiedEvents: ['6'],
   },
 };
 
-export const Month: Story = {
-  name: '월간 뷰',
-  args: { view: 'month' },
+export const MonthEmpty: Story = {
+  name: '월간 뷰 - 일정 없음',
+  args: {
+    view: 'month',
+  },
 };
 
 export const MonthWithEvents: Story = {
   name: '월간 뷰 - 일정 포함',
   args: {
     view: 'month',
-    weekView: (
-      <WeekView
-        currentDate={new Date('2025-11-15')}
-        setDate={fn()}
-        filteredEvents={mockEvents}
-        notifiedEvents={['3']}
-      />
-    ),
     monthView: (
       <MonthView
         currentDate={new Date('2025-11-15')}
         holidays={{}}
         setDate={fn()}
         filteredEvents={mockEvents}
-        notifiedEvents={['3']}
+        notifiedEvents={['6']}
       />
     ),
-    notifiedEvents: ['3'],
+    notifiedEvents: ['6'],
   },
 };
 
@@ -247,26 +220,18 @@ export const MonthWithHolidays: Story = {
 };
 
 export const MonthWithHolidaysAndEvents: Story = {
-  name: '월간 뷰 - 공휴일, 일정 포함',
+  name: '월간 뷰 - 공휴일 + 일정',
   args: {
     view: 'month',
-    weekView: (
-      <WeekView
-        currentDate={new Date('2025-11-15')}
-        setDate={fn()}
-        filteredEvents={mockEvents}
-        notifiedEvents={['3']}
-      />
-    ),
     monthView: (
       <MonthView
         currentDate={new Date('2025-11-15')}
         holidays={mockHolidays}
         setDate={fn()}
         filteredEvents={mockEvents}
-        notifiedEvents={['3']}
+        notifiedEvents={['6']}
       />
     ),
-    notifiedEvents: ['3'],
+    notifiedEvents: ['6'],
   },
 };
