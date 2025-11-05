@@ -11,29 +11,83 @@ import { Event } from '@/types';
 const mockEvents: Event[] = [
   {
     id: '1',
-    title: '팀 미팅',
-    date: '2024-11-04',
-    startTime: '10:00',
-    endTime: '11:00',
-    description: '주간 팀 미팅',
-    location: '회의실 A',
-    category: '업무',
-    repeat: { type: 'none', interval: 0 },
+    title: '항해 오프라인',
+    date: '2025-11-01',
+    startTime: '12:00',
+    endTime: '18:00',
+    description: '항해 7기 발제 오프라인',
+    location: '아이콘역삼빌딩',
+    category: '개인',
+    repeat: { type: 'weekly', interval: 1, endDate: '2025-12-20', id: 'repeat-1' },
     notificationTime: 10,
   },
   {
     id: '2',
-    title: '점심 약속',
-    date: '2024-11-05',
+    title: '항해 오프라인',
+    date: '2025-11-08',
     startTime: '12:00',
-    endTime: '13:00',
-    description: '친구와 점심',
-    location: '레스토랑',
+    endTime: '18:00',
+    description: '항해 7기 발제 오프라인',
+    location: '아이콘역삼빌딩',
     category: '개인',
-    repeat: { type: 'weekly', interval: 1, endDate: '2025-11-26', id: 'repeat-1' },
-    notificationTime: 60,
+    repeat: { type: 'weekly', interval: 1, endDate: '2025-12-20', id: 'repeat-1' },
+    notificationTime: 10,
+  },
+  {
+    id: '3',
+    title: '항해 오프라인',
+    date: '2025-11-15',
+    startTime: '12:00',
+    endTime: '18:00',
+    description: '항해 7기 발제 오프라인',
+    location: '아이콘역삼빌딩',
+    category: '개인',
+    repeat: { type: 'weekly', interval: 1, endDate: '2025-12-20', id: 'repeat-1' },
+    notificationTime: 10,
+  },
+  {
+    id: '4',
+    title: '항해 오프라인',
+    date: '2025-11-22',
+    startTime: '12:00',
+    endTime: '18:00',
+    description: '항해 7기 발제 오프라인',
+    location: '아이콘역삼빌딩',
+    category: '개인',
+    repeat: { type: 'weekly', interval: 1, endDate: '2025-12-20', id: 'repeat-1' },
+    notificationTime: 10,
+  },
+  {
+    id: '5',
+    title: '항해 오프라인',
+    date: '2025-11-29',
+    startTime: '12:00',
+    endTime: '18:00',
+    description: '항해 7기 발제 오프라인',
+    location: '아이콘역삼빌딩',
+    category: '개인',
+    repeat: { type: 'weekly', interval: 1, endDate: '2025-12-20', id: 'repeat-1' },
+    notificationTime: 10,
+  },
+  {
+    id: '6',
+    title: '중간 네트워킹',
+    date: '2025-11-15',
+    startTime: '18:00',
+    endTime: '22:00',
+    description: '항해 7기 중간 네트워킹 이벤트',
+    location: '회의실 A',
+    category: '개인',
+    repeat: { type: 'none', interval: 0 },
+    notificationTime: 1,
   },
 ];
+
+const mockHolidays = {
+  '2025-11-07': '입동',
+  '2025-11-11': '빼빼로데이',
+  '2025-11-22': '소설',
+};
 
 const meta = {
   title: '캘린더/일정 보기',
@@ -49,18 +103,18 @@ const meta = {
     notifiedEvents: [],
     weekView: (
       <WeekView
-        currentDate={new Date('2024-11-04')}
+        currentDate={new Date('2025-11-15')}
         setDate={fn()}
-        filteredEvents={mockEvents}
+        filteredEvents={[]}
         notifiedEvents={[]}
       />
     ),
     monthView: (
       <MonthView
-        currentDate={new Date('2024-11-04')}
+        currentDate={new Date('2025-11-15')}
         holidays={{}}
         setDate={fn()}
-        filteredEvents={mockEvents}
+        filteredEvents={[]}
         notifiedEvents={[]}
       />
     ),
@@ -84,7 +138,7 @@ const meta = {
       description: '이벤트 드롭 함수',
     },
     notifiedEvents: {
-      control: false,
+      control: 'object',
       description: '알림 이벤트 목록',
     },
     weekView: {
@@ -116,12 +170,103 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const Week: Story = {
+  name: '주간 뷰',
+  args: { view: 'week' },
+};
+
+export const WeekWithEvents: Story = {
+  name: '주간 뷰 - 일정 포함',
+  args: {
+    view: 'week',
+    weekView: (
+      <WeekView
+        currentDate={new Date('2025-11-15')}
+        setDate={fn()}
+        filteredEvents={mockEvents}
+        notifiedEvents={['3']}
+      />
+    ),
+    monthView: (
+      <MonthView
+        currentDate={new Date('2025-11-15')}
+        holidays={{}}
+        setDate={fn()}
+        filteredEvents={mockEvents}
+        notifiedEvents={['3']}
+      />
+    ),
+    notifiedEvents: ['3'],
+  },
+};
+
 export const Month: Story = {
   name: '월간 뷰',
   args: { view: 'month' },
 };
 
-export const Week: Story = {
-  name: '주간 뷰',
-  args: { view: 'week' },
+export const MonthWithEvents: Story = {
+  name: '월간 뷰 - 일정 포함',
+  args: {
+    view: 'month',
+    weekView: (
+      <WeekView
+        currentDate={new Date('2025-11-15')}
+        setDate={fn()}
+        filteredEvents={mockEvents}
+        notifiedEvents={['3']}
+      />
+    ),
+    monthView: (
+      <MonthView
+        currentDate={new Date('2025-11-15')}
+        holidays={{}}
+        setDate={fn()}
+        filteredEvents={mockEvents}
+        notifiedEvents={['3']}
+      />
+    ),
+    notifiedEvents: ['3'],
+  },
+};
+
+export const MonthWithHolidays: Story = {
+  name: '월간 뷰 - 공휴일 포함',
+  args: {
+    view: 'month',
+    monthView: (
+      <MonthView
+        currentDate={new Date('2025-11-15')}
+        holidays={mockHolidays}
+        setDate={fn()}
+        filteredEvents={[]}
+        notifiedEvents={[]}
+      />
+    ),
+  },
+};
+
+export const MonthWithHolidaysAndEvents: Story = {
+  name: '월간 뷰 - 공휴일, 일정 포함',
+  args: {
+    view: 'month',
+    weekView: (
+      <WeekView
+        currentDate={new Date('2025-11-15')}
+        setDate={fn()}
+        filteredEvents={mockEvents}
+        notifiedEvents={['3']}
+      />
+    ),
+    monthView: (
+      <MonthView
+        currentDate={new Date('2025-11-15')}
+        holidays={mockHolidays}
+        setDate={fn()}
+        filteredEvents={mockEvents}
+        notifiedEvents={['3']}
+      />
+    ),
+    notifiedEvents: ['3'],
+  },
 };
