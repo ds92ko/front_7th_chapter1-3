@@ -71,37 +71,51 @@ export const useEventForm = (initialEvent?: Event) => {
     setNotificationTime(event.notificationTime);
   };
 
-  return {
+  const data = {
     title,
-    setTitle,
     date,
-    setDate,
     startTime,
-    setStartTime,
     endTime,
-    setEndTime,
     description,
-    setDescription,
     location,
-    setLocation,
     category,
-    setCategory,
     isRepeating,
-    setIsRepeating,
-    repeatType,
-    setRepeatType,
-    repeatInterval,
-    setRepeatInterval,
-    repeatEndDate,
-    setRepeatEndDate,
+    repeat: {
+      type: repeatType,
+      interval: repeatInterval,
+      endDate: repeatEndDate,
+    },
     notificationTime,
-    setNotificationTime,
-    startTimeError,
-    endTimeError,
+  };
+
+  const setData = {
+    title: setTitle,
+    date: setDate,
+    startTime: handleStartTimeChange,
+    endTime: handleEndTimeChange,
+    description: setDescription,
+    location: setLocation,
+    category: setCategory,
+    isRepeating: setIsRepeating,
+    repeat: {
+      type: setRepeatType,
+      interval: setRepeatInterval,
+      endDate: setRepeatEndDate,
+    },
+    notificationTime: setNotificationTime,
+  };
+
+  const errors = {
+    startTime: startTimeError,
+    endTime: endTimeError,
+  };
+
+  return {
+    data,
+    setData,
+    errors,
     editingEvent,
     setEditingEvent,
-    handleStartTimeChange,
-    handleEndTimeChange,
     resetForm,
     editEvent,
   };
