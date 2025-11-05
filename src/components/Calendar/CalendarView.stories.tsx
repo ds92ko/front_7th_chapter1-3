@@ -151,7 +151,7 @@ const meta = {
     },
   },
   render: function Render(args) {
-    const [{ view }, updateArgs] = useArgs();
+    const [, updateArgs] = useArgs();
 
     const setView = (newView: 'week' | 'month') => {
       updateArgs({ view: newView });
@@ -160,7 +160,7 @@ const meta = {
     return (
       <CalendarView
         {...args}
-        view={view}
+        view={args.view}
         setView={setView as Dispatch<SetStateAction<'week' | 'month'>>}
       />
     );
