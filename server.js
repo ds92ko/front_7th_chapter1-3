@@ -11,21 +11,33 @@ const __dirname = path.resolve();
 
 app.use(express.json());
 
-const dbName = process.env.TEST_ENV === 'e2e' ? 'e2e.json' : 'realEvents.json';
+const getDbName = (req) => {
+  if (process.env.TEST_ENV !== 'e2e') return 'realEvents.json';
 
-const getEvents = async () => {
-  const data = await readFile(`${__dirname}/src/__mocks__/response/${dbName}`, 'utf8');
+  const workerId = req?.headers['x-worker-id'] ?? '0';
+  return `e2e.worker-${workerId}.json`;
+};
 
+const getEvents = async (req) => {
+  const dbName = getDbName(req);
+  const filePath = `${__dirname}/src/__mocks__/response/${dbName}`;
+
+  if (!fs.existsSync(filePath)) {
+    fs.writeFileSync(filePath, JSON.stringify({ events: [] }));
+  }
+
+  const data = await readFile(filePath, 'utf8');
   return JSON.parse(data);
 };
 
-app.get('/api/events', async (_, res) => {
-  const events = await getEvents();
+app.get('/api/events', async (req, res) => {
+  const events = await getEvents(req);
   res.json(events);
 });
 
 app.post('/api/events', async (req, res) => {
-  const events = await getEvents();
+  const events = await getEvents(req);
+  const dbName = getDbName(req);
   const newEvent = { id: randomUUID(), ...req.body };
 
   fs.writeFileSync(
@@ -39,7 +51,8 @@ app.post('/api/events', async (req, res) => {
 });
 
 app.put('/api/events/:id', async (req, res) => {
-  const events = await getEvents();
+  const events = await getEvents(req);
+  const dbName = getDbName(req);
   const id = req.params.id;
   const eventIndex = events.events.findIndex((event) => event.id === id);
   if (eventIndex > -1) {
@@ -60,7 +73,8 @@ app.put('/api/events/:id', async (req, res) => {
 });
 
 app.delete('/api/events/:id', async (req, res) => {
-  const events = await getEvents();
+  const events = await getEvents(req);
+  const dbName = getDbName(req);
   const id = req.params.id;
 
   fs.writeFileSync(
@@ -74,7 +88,8 @@ app.delete('/api/events/:id', async (req, res) => {
 });
 
 app.post('/api/events-list', async (req, res) => {
-  const events = await getEvents();
+  const events = await getEvents(req);
+  const dbName = getDbName(req);
   const repeatId = randomUUID();
   const newEvents = req.body.events.map((event) => {
     const isRepeatEvent = event.repeat.type !== 'none';
@@ -99,7 +114,8 @@ app.post('/api/events-list', async (req, res) => {
 });
 
 app.put('/api/events-list', async (req, res) => {
-  const events = await getEvents();
+  const events = await getEvents(req);
+  const dbName = getDbName(req);
   let isUpdated = false;
 
   const newEvents = [...events.events];
@@ -126,7 +142,8 @@ app.put('/api/events-list', async (req, res) => {
 });
 
 app.delete('/api/events-list', async (req, res) => {
-  const events = await getEvents();
+  const events = await getEvents(req);
+  const dbName = getDbName(req);
   const newEvents = events.events.filter((event) => !req.body.eventIds.includes(event.id)); // ? ids를 전달하면 해당 아이디를 기준으로 events에서 제거
 
   fs.writeFileSync(
@@ -140,7 +157,8 @@ app.delete('/api/events-list', async (req, res) => {
 });
 
 app.put('/api/recurring-events/:repeatId', async (req, res) => {
-  const events = await getEvents();
+  const events = await getEvents(req);
+  const dbName = getDbName(req);
   const repeatId = req.params.repeatId;
   const updateData = req.body;
 
@@ -176,7 +194,8 @@ app.put('/api/recurring-events/:repeatId', async (req, res) => {
 });
 
 app.delete('/api/recurring-events/:repeatId', async (req, res) => {
-  const events = await getEvents();
+  const events = await getEvents(req);
+  const dbName = getDbName(req);
   const repeatId = req.params.repeatId;
 
   const remainingEvents = events.events.filter((event) => event.repeat.id !== repeatId);
@@ -198,18 +217,19 @@ app.post('/api/test/reset', async (req, res) => {
   if (process.env.TEST_ENV !== 'e2e')
     return res.status(403).json({ message: 'Reset only available in test environment' });
 
+  const dbName = getDbName(req);
+
   fs.writeFileSync(`${__dirname}/src/__mocks__/response/${dbName}`, JSON.stringify({ events: [] }));
   res.status(200).json({ message: 'Test data reset successfully' });
 });
 
 app.listen(port, () => {
-  if (!fs.existsSync(`${__dirname}/src/__mocks__/response/${dbName}`)) {
-    fs.writeFileSync(
-      `${__dirname}/src/__mocks__/response/${dbName}`,
-      JSON.stringify({
-        events: [],
-      })
-    );
+  const dbName = process.env.TEST_ENV === 'e2e' ? 'e2e.worker-0.json' : 'realEvents.json';
+  const filePath = `${__dirname}/src/__mocks__/response/${dbName}`;
+
+  if (!fs.existsSync(filePath)) {
+    fs.writeFileSync(filePath, JSON.stringify({ events: [] }));
   }
+
   console.log(`Server running at http://localhost:${port}`);
 });
