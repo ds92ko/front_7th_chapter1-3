@@ -43,12 +43,13 @@ test.describe('기본 일정 관리 워크플로우', () => {
 
       // 일정 추가 버튼 클릭
       await page.click('button:has-text("일정 추가")');
-
+      // TODO: 일정 겹침 경고 테스트로 이동
       // 일정 겹침 경고 다이얼로그 노출 시 계속 진행 버튼 클릭
-      const overlapDialog = page.locator('text=일정 겹침 경고');
-      if (await overlapDialog.isVisible({ timeout: 1000 }).catch(() => false)) {
-        await page.click('button:has-text("계속 진행")');
-      }
+      // const overlapDialog = page.locator('text=일정 겹침 경고');
+      // if (await overlapDialog.isVisible({ timeout: 1000 }).catch(() => false)) {
+      //   await page.click('button:has-text("계속 진행")');
+      // }
+      await page.waitForTimeout(300);
 
       // 일정 추가 성공 알림 확인
       const successSnackbar = page.locator('text=일정이 추가되었습니다');
@@ -107,7 +108,6 @@ test.describe('기본 일정 관리 워크플로우', () => {
 
       // 일정 추가 버튼 클릭
       await page.click('button:has-text("일정 추가")');
-
       await page.waitForTimeout(300);
 
       // 일정 추가 후 개수 확인
@@ -139,6 +139,55 @@ test.describe('기본 일정 관리 워크플로우', () => {
       // 일정 추가 후 개수 확인
       const afterEventCount = await weekView.locator('text=항해 과제 제출하기').count();
       expect(afterEventCount).toBe(initialEventCount + 1);
+    });
+  });
+
+  test.describe('UPDATE', () => {
+    test('일정 수정: 모든 필드 수정', async ({ page }) => {
+      // 일정 생성
+      await page.fill('input[placeholder="제목"]', '수정 전 일정');
+      await page.fill('input[placeholder="날짜"]', getTodayDate());
+      await page.fill('input[placeholder="시작 시간"]', '10:00');
+      await page.fill('input[placeholder="종료 시간"]', '11:00');
+      await page.fill('input[placeholder="설명"]', '수정 전 설명');
+      await page.fill('input[placeholder="위치"]', '수정 전 위치');
+      await page.click('[aria-label="카테고리"]');
+      await page.click('li[data-value="개인"]');
+      await page.click('[aria-label="알림 설정"]');
+      await page.click('li[data-value="60"]');
+
+      // 일정 추가 버튼 클릭
+      await page.click('button:has-text("일정 추가")');
+      await page.waitForTimeout(300);
+
+      // 일정 수정 버튼 클릭
+      await page.click('button[aria-label="Edit event"]');
+
+      // 모든 필드 수정
+      await page.fill('input[placeholder="제목"]', '수정 후 일정');
+      // TODO: 날짜 변경 필요
+      await page.fill('input[placeholder="날짜"]', getTodayDate());
+      await page.fill('input[placeholder="시작 시간"]', '12:00');
+      await page.fill('input[placeholder="종료 시간"]', '13:00');
+      await page.fill('input[placeholder="설명"]', '수정 후 설명');
+      await page.fill('input[placeholder="위치"]', '수정 후 위치');
+      await page.click('[aria-label="카테고리"]');
+      await page.click('li[data-value="기타"]');
+      await page.click('[aria-label="알림 설정"]');
+      await page.click('li[data-value="120"]');
+
+      // 일정 수정 버튼 클릭
+      await page.click('button:has-text("일정 수정")');
+      await page.waitForTimeout(300);
+
+      // 일정 수정 성공 알림 확인
+      const successSnackbar = page.locator('text=일정이 수정되었습니다');
+      await expect(successSnackbar).toBeVisible();
+
+      // 일정 수정 후 제목 확인
+      const eventList = page.locator('[data-testid="event-list"]');
+      await expect(eventList.locator('text=수정 후 일정')).toBeVisible();
+      await expect(eventList.locator('text=수정 전 일정')).not.toBeVisible();
     });
   });
 });
