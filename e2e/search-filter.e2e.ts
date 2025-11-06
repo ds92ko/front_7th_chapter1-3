@@ -4,16 +4,12 @@ import { getOtherWeekInMonth, getTodayDate } from '../src/utils/dateUtils';
 
 test.describe('검색 및 필터링', () => {
   test.beforeEach(async ({ page }) => {
-    // 테스트 데이터 초기화
-    await page.request.post('/api/test/reset', {
-      headers: {
-        'x-worker-id': process.env.TEST_PARALLEL_INDEX || '0',
-      },
+    const res = await page.request.post('/api/test/reset', {
+      headers: { 'x-worker-id': process.env.TEST_PARALLEL_INDEX || '0' },
     });
-    // 개발 서버로 이동
+    expect(res.ok()).toBeTruthy();
+
     await page.goto('/');
-    // 페이지 로드 대기
-    await page.waitForLoadState('networkidle');
   });
 
   test('검색 기능', async ({ page }) => {

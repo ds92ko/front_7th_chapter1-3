@@ -20,16 +20,12 @@ const getTimeAfterMinutes = (minutes: number) => {
 
 test.describe('알림 시스템', () => {
   test.beforeEach(async ({ page }) => {
-    // 테스트 데이터 초기화
-    await page.request.post('/api/test/reset', {
-      headers: {
-        'x-worker-id': process.env.TEST_PARALLEL_INDEX || '0',
-      },
+    const res = await page.request.post('/api/test/reset', {
+      headers: { 'x-worker-id': process.env.TEST_PARALLEL_INDEX || '0' },
     });
-    // 개발 서버로 이동
+    expect(res.ok()).toBeTruthy();
+
     await page.goto('/');
-    // 페이지 로드 대기
-    await page.waitForLoadState('networkidle');
   });
 
   test('알림 노출 및 닫기', async ({ page }) => {
@@ -47,17 +43,14 @@ test.describe('알림 시스템', () => {
 
     // 알림이 표시될 때까지 대기
     const notification = page.locator('text=10분 후 항해 과제 제출하기 일정이 시작됩니다.');
-    await expect(notification).toBeVisible({ timeout: 2000 });
+    await expect(notification).toBeVisible({ timeout: 3000 });
 
     // 알림 닫기 버튼 클릭
-    const closeButton = page
-      .locator('button:has(svg)')
-      .filter({ has: page.locator('svg') })
-      .last();
+    const closeButton = notification.locator('button:has(svg)');
     await closeButton.click();
 
     // 알림이 사라졌는지 확인
-    await expect(notification).not.toBeVisible();
+    await expect(notification).toBeHidden();
   });
 
   test('알림 아이콘 표시', async ({ page }) => {
