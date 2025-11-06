@@ -184,3 +184,24 @@ export function getMondayAndFriday(): [string, string] {
 
   return [formatDate(monday), formatDate(friday)];
 }
+
+/**
+ * 이번 달이면서 이번 주가 아닌 날짜를 "YYYY-MM-DD" 형식으로 반환합니다.
+ * 다음주가 다음달이면 지난주를, 아니면 다음주를 반환합니다.
+ * E2E 테스트에서 사용되는 함수입니다.
+ * @returns {string} 이번 달이면서 이번 주가 아닌 날짜
+ */
+export function getOtherWeekInMonth() {
+  const today = new Date();
+
+  const nextWeek = new Date(today);
+  nextWeek.setDate(today.getDate() + 7);
+
+  const prevWeek = new Date(today);
+  prevWeek.setDate(today.getDate() - 7);
+
+  const isNextMonth = nextWeek.getMonth() !== today.getMonth();
+  const targetDate = isNextMonth ? prevWeek : nextWeek;
+
+  return formatDate(targetDate);
+}
