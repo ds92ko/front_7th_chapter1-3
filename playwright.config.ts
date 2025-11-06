@@ -37,7 +37,14 @@ export default defineConfig({
     extraHTTPHeaders: {
       'x-worker-id': process.env.TEST_PARALLEL_INDEX || '0',
     },
+
+    /* 네비게이션 타임아웃 증가 (CI 환경에서 느릴 수 있음) */
+    navigationTimeout: 60000,
+    actionTimeout: 15000,
   },
+
+  /* 전역 타임아웃 설정 */
+  timeout: 60000,
 
   /* Configure projects for major browsers */
   projects: [
@@ -80,18 +87,24 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: [
     {
-      command: 'TEST_ENV=e2e PORT=8080 node server.js',
+      command: 'node server.js',
       url: 'http://localhost:8080/api/events',
       reuseExistingServer: !process.env.CI,
+      timeout: 120000,
+      stdout: 'pipe',
+      stderr: 'pipe',
       env: {
         TEST_ENV: 'e2e',
         PORT: '8080',
       },
     },
     {
-      command: 'API_PORT=8080 vite --port 5174',
+      command: 'vite --port 5174',
       url: 'http://localhost:5174',
       reuseExistingServer: !process.env.CI,
+      timeout: 120000,
+      stdout: 'pipe',
+      stderr: 'pipe',
       env: {
         API_PORT: '8080',
       },
