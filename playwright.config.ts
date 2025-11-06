@@ -30,7 +30,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: 'http://localhost:5174',
+    baseURL: 'http://localhost:5173',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -89,26 +89,12 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: [
     {
-      command: 'node server.js',
-      url: 'http://localhost:8080/api/events',
+      command: 'pnpm run dev',
+      url: 'http://localhost:5173',
       reuseExistingServer: !process.env.CI,
       timeout: 120000,
-      stdout: 'pipe',
-      stderr: 'pipe',
       env: {
         TEST_ENV: 'e2e',
-        PORT: '8080',
-      },
-    },
-    {
-      command: 'vite --port 5174',
-      url: 'http://localhost:5174',
-      reuseExistingServer: !process.env.CI,
-      timeout: 120000,
-      stdout: 'pipe',
-      stderr: 'pipe',
-      env: {
-        API_PORT: '8080',
       },
     },
   ],
