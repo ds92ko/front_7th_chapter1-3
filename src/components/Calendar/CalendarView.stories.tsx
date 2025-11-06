@@ -79,6 +79,19 @@ const mockEvents: Event[] = [
     repeat: { type: 'none', interval: 0 },
     notificationTime: 1,
   },
+  {
+    id: '7',
+    title:
+      '아기다리 고기다리던 항해 플러스 프론트엔드 7기 최강 2팀의 대망의 테오 멘토링 세션! 무야호!',
+    date: '2025-11-14',
+    startTime: '22:00',
+    endTime: '24:00',
+    description: '항해 7기 2팀 멘토링',
+    location: '회의실 A',
+    category: '개인',
+    repeat: { type: 'none', interval: 0 },
+    notificationTime: 1,
+  },
 ];
 
 const mockHolidays = {
