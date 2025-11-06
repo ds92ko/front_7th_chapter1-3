@@ -36,12 +36,6 @@ test.describe('기본 일정 관리 워크플로우', () => {
 
       // 일정 추가 버튼 클릭
       await page.click('button:has-text("일정 추가")');
-      // TODO: 일정 겹침 경고 테스트로 이동
-      // 일정 겹침 경고 다이얼로그 노출 시 계속 진행 버튼 클릭
-      // const overlapDialog = page.locator('text=일정 겹침 경고');
-      // if (await overlapDialog.isVisible({ timeout: 1000 }).catch(() => false)) {
-      //   await page.click('button:has-text("계속 진행")');
-      // }
 
       // 일정 추가 성공 알림 확인
       const successSnackbar = page.locator('text=일정이 추가되었습니다');
