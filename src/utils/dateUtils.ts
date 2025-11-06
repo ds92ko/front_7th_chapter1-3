@@ -168,3 +168,19 @@ export function getFirstAndThirdWeekDate(): [string, string] {
 
   return [formatDate(firstWeekDate), formatDate(thirdWeekDate)];
 }
+
+/**
+ * 이번 주의 월요일과 금요일을 "YYYY-MM-DD" 형식으로 반환합니다.
+ * E2E 테스트에서 사용되는 함수입니다.
+ * @returns {[string, string]} [이번 주 월요일, 이번 주 금요일]
+ */
+export function getMondayAndFriday(): [string, string] {
+  const today = new Date();
+  const weekDates = getWeekDates(new Date(today));
+
+  // 일요일(0)부터 시작하므로 월요일은 인덱스 1, 금요일은 인덱스 5
+  const monday = weekDates[1];
+  const friday = weekDates[5];
+
+  return [formatDate(monday), formatDate(friday)];
+}

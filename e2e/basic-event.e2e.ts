@@ -134,7 +134,7 @@ test.describe('기본 일정 관리 워크플로우', () => {
   });
 
   test.describe('UPDATE', () => {
-    test('일정 수정: 모든 필드 수정', async ({ page }) => {
+    test('일정 수정: 모든 필드', async ({ page }) => {
       // 일정 생성
       await page.fill('input[placeholder="제목"]', '수정 전 일정');
       await page.fill('input[placeholder="날짜"]', getTodayDate());

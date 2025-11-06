@@ -24,6 +24,7 @@ const DayCell = ({ day, dateString, holiday, onClick, children }: DayCellProps) 
         background: isOver ? blue[100] : undefined,
       }}
       onClick={onClick}
+      data-testid={`day-cell-${day || 'empty'}`}
     >
       {day && (
         <>

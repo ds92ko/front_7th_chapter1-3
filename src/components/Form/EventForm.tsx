@@ -185,6 +185,7 @@ const EventForm = ({ data, setData, errors, editingEvent, addOrUpdateEvent }: Ev
                 type="date"
                 value={data.repeat.endDate}
                 onChange={(e) => setData.repeat.endDate(e.target.value)}
+                placeholder="반복 종료일"
               />
             </FormControl>
           </Stack>
