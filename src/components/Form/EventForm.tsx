@@ -29,6 +29,7 @@ const EventForm = ({ data, setData, errors, editingEvent, addOrUpdateEvent }: Ev
           size="small"
           value={data.title}
           onChange={(e) => setData.title(e.target.value)}
+          placeholder="제목"
         />
       </FormControl>
 
@@ -40,6 +41,7 @@ const EventForm = ({ data, setData, errors, editingEvent, addOrUpdateEvent }: Ev
           type="date"
           value={data.date}
           onChange={(e) => setData.date(e.target.value)}
+          placeholder="날짜"
         />
       </FormControl>
 
@@ -55,6 +57,7 @@ const EventForm = ({ data, setData, errors, editingEvent, addOrUpdateEvent }: Ev
               onChange={setData.startTime}
               onBlur={() => getTimeErrorMessage(data.startTime, data.endTime)}
               error={!!errors.startTime}
+              placeholder="시작 시간"
             />
           </Tooltip>
         </FormControl>
@@ -69,6 +72,7 @@ const EventForm = ({ data, setData, errors, editingEvent, addOrUpdateEvent }: Ev
               onChange={setData.endTime}
               onBlur={() => getTimeErrorMessage(data.startTime, data.endTime)}
               error={!!errors.endTime}
+              placeholder="종료 시간"
             />
           </Tooltip>
         </FormControl>
@@ -81,6 +85,7 @@ const EventForm = ({ data, setData, errors, editingEvent, addOrUpdateEvent }: Ev
           size="small"
           value={data.description}
           onChange={(e) => setData.description(e.target.value)}
+          placeholder="설명"
         />
       </FormControl>
 
@@ -91,11 +96,14 @@ const EventForm = ({ data, setData, errors, editingEvent, addOrUpdateEvent }: Ev
           size="small"
           value={data.location}
           onChange={(e) => setData.location(e.target.value)}
+          placeholder="위치"
         />
       </FormControl>
 
       <FormControl fullWidth>
-        <FormLabel id="category-label">카테고리</FormLabel>
+        <FormLabel id="category-label" htmlFor="category">
+          카테고리
+        </FormLabel>
         <Select
           id="category"
           size="small"
@@ -184,12 +192,16 @@ const EventForm = ({ data, setData, errors, editingEvent, addOrUpdateEvent }: Ev
       )}
 
       <FormControl fullWidth>
-        <FormLabel htmlFor="notification">알림 설정</FormLabel>
+        <FormLabel id="notification-label" htmlFor="notification">
+          알림 설정
+        </FormLabel>
         <Select
           id="notification"
           size="small"
           value={data.notificationTime}
           onChange={(e) => setData.notificationTime(Number(e.target.value))}
+          aria-labelledby="notification-label"
+          aria-label="알림 설정"
         >
           {notificationOptions.map((option) => (
             <MenuItem key={option.value} value={option.value}>
