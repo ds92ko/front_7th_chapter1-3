@@ -15,7 +15,9 @@ export default mergeConfig(
     server: {
       proxy: {
         '/api': {
-          target: 'http://localhost:3000',
+          target: process.env.API_PORT
+            ? `http://localhost:${process.env.API_PORT}`
+            : 'http://localhost:3000',
           changeOrigin: true,
         },
       },

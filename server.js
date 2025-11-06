@@ -6,7 +6,7 @@ import path from 'path';
 import express from 'express';
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const __dirname = path.resolve();
 
 app.use(express.json());
@@ -191,6 +191,15 @@ app.delete('/api/recurring-events/:repeatId', async (req, res) => {
   );
 
   res.status(204).send();
+});
+
+// E2E 테스트용 리셋 API
+app.post('/api/test/reset', async (req, res) => {
+  if (process.env.TEST_ENV !== 'e2e')
+    return res.status(403).json({ message: 'Reset only available in test environment' });
+
+  fs.writeFileSync(`${__dirname}/src/__mocks__/response/${dbName}`, JSON.stringify({ events: [] }));
+  res.status(200).json({ message: 'Test data reset successfully' });
 });
 
 app.listen(port, () => {
