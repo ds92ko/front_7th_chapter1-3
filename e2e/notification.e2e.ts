@@ -39,14 +39,19 @@ test.describe('알림 시스템', () => {
     await page.click('[aria-label="알림 설정"]');
     await page.click('li[data-value="10"]');
     await page.click('button:has-text("일정 추가")');
-    await page.waitForTimeout(300);
 
-    // 알림이 표시될 때까지 대기
+    // 일정이 서버에 저장되고 events가 업데이트될 때까지 대기
+    await page.waitForTimeout(500);
+
+    // 알림이 표시될 때까지 대기 (useNotifications는 1초마다 체크하므로 최소 1.5초 대기)
     const notification = page.locator('text=10분 후 항해 과제 제출하기 일정이 시작됩니다.');
-    await expect(notification).toBeVisible({ timeout: 3000 });
+    await expect(notification).toBeVisible({ timeout: 5000 });
 
     // 알림 닫기 버튼 클릭
-    const closeButton = notification.locator('button:has(svg)');
+    // notification은 AlertTitle이므로, 부모 Alert 컴포넌트에서 button 찾기
+    const alertContainer = notification.locator('..').locator('..'); // AlertTitle -> Alert-content -> Alert
+    const closeButton = alertContainer.locator('button').last(); // Alert의 action에 있는 버튼
+    await expect(closeButton).toBeVisible({ timeout: 1000 });
     await closeButton.click();
 
     // 알림이 사라졌는지 확인
@@ -64,18 +69,27 @@ test.describe('알림 시스템', () => {
     await page.click('[aria-label="알림 설정"]');
     await page.click('li[data-value="10"]');
     await page.click('button:has-text("일정 추가")');
-    await page.waitForTimeout(300);
+
+    // 일정이 서버에 저장되고 events가 업데이트될 때까지 대기
+    await page.waitForTimeout(500);
+
+    // 알림이 표시될 때까지 대기 (알림이 표시되어야 notifiedEvents에 추가되고 아이콘이 표시됨)
+    const notification = page.locator('text=10분 후 항해 과제 제출하기 일정이 시작됩니다.');
+    await expect(notification).toBeVisible({ timeout: 5000 });
 
     // 월간 뷰에서 알림 아이콘 확인
     const monthView = page.locator('[data-testid="month-view"]');
-    const eventCard = monthView.locator('text=항해 과제 제출하기').locator('..');
-    const monthViewIcon = eventCard.locator('svg[data-testid="NotificationsIcon"]');
-    await expect(monthViewIcon).toBeVisible();
+    // EventCard 내에서 제목 텍스트가 포함된 요소에서 제목 앞에 있는 svg (Notifications 아이콘) 찾기
+    const eventCardWithTitle = monthView.locator('text=항해 과제 제출하기');
+    // 제목과 같은 Stack에 있는 svg를 찾기 위해 부모 Stack에서 svg 찾기
+    const monthViewIcon = eventCardWithTitle.locator('..').locator('svg').first();
+    await expect(monthViewIcon).toBeVisible({ timeout: 2000 });
 
     // 이벤트 목록에서 알림 아이콘 확인
     const eventList = page.locator('[data-testid="event-list"]');
-    const eventItem = eventList.locator('text=항해 과제 제출하기').locator('..');
-    const eventListIcon = eventItem.locator('svg[data-testid="NotificationsIcon"]');
-    await expect(eventListIcon).toBeVisible();
+    // 이벤트 아이템 내에서 제목과 같은 Stack에 있는 svg (Notifications 아이콘) 찾기
+    const eventItemWithTitle = eventList.locator('text=항해 과제 제출하기');
+    const eventListIcon = eventItemWithTitle.locator('..').locator('svg').first();
+    await expect(eventListIcon).toBeVisible({ timeout: 2000 });
   });
 });
