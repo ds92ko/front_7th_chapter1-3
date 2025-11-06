@@ -16,7 +16,7 @@ export default defineConfig({
   /* Match test files with .e2e.ts extension */
   testMatch: '**/*.e2e.ts',
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: process.env.CI ? false : true,
   /* Cleanup after all tests */
   globalTeardown: './e2e/global-teardown.ts',
   /* Fail the build on CI if you accidentally left test.only in the source code. */
