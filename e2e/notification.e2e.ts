@@ -1,23 +1,5 @@
 import { expect, test } from '@playwright/test';
 
-import { getTodayDate } from '../src/utils/dateUtils';
-
-// 현재 시간 기준 N분 후의 시작/종료 시간을 HH:MM 형식으로 반환
-const getTimeAfterMinutes = (minutes: number) => {
-  const now = new Date();
-  const startTime = new Date(now.getTime() + minutes * 60 * 1000);
-  const endTime = new Date(startTime.getTime() + 60 * 60 * 1000);
-
-  const startTimeStr = `${String(startTime.getHours()).padStart(2, '0')}:${String(
-    startTime.getMinutes()
-  ).padStart(2, '0')}`;
-  const endTimeStr = `${String(endTime.getHours()).padStart(2, '0')}:${String(
-    endTime.getMinutes()
-  ).padStart(2, '0')}`;
-
-  return { startTimeStr, endTimeStr };
-};
-
 test.describe('알림 시스템', () => {
   test.beforeEach(async ({ page }) => {
     const res = await page.request.post('/api/test/reset', {
@@ -25,15 +7,20 @@ test.describe('알림 시스템', () => {
     });
     expect(res.ok()).toBeTruthy();
 
+    const fixedTime = new Date('2025-10-15T09:50:00');
+    await page.clock.install({ time: fixedTime });
+    await page.clock.setFixedTime(fixedTime);
+
     await page.goto('/');
   });
 
   test('알림 노출 및 닫기', async ({ page }) => {
-    const { startTimeStr, endTimeStr } = getTimeAfterMinutes(10);
+    const startTimeStr = '10:00';
+    const endTimeStr = '11:00';
 
     // 일정 생성
     await page.fill('input[placeholder="제목"]', '항해 과제 제출하기');
-    await page.fill('input[placeholder="날짜"]', getTodayDate());
+    await page.fill('input[placeholder="날짜"]', '2025-10-15');
     await page.fill('input[placeholder="시작 시간"]', startTimeStr);
     await page.fill('input[placeholder="종료 시간"]', endTimeStr);
     await page.click('[aria-label="알림 설정"]');
@@ -43,9 +30,11 @@ test.describe('알림 시스템', () => {
     // 일정이 서버에 저장되고 events가 업데이트될 때까지 대기
     await page.waitForTimeout(500);
 
-    // 알림이 표시될 때까지 대기 (useNotifications는 1초마다 체크하므로 최소 1.5초 대기)
+    // 알림이 표시될 때까지 대기
+    await page.clock.runFor(1000);
+
     const notification = page.locator('text=10분 후 항해 과제 제출하기 일정이 시작됩니다.');
-    await expect(notification).toBeVisible({ timeout: 5000 });
+    await expect(notification).toBeVisible({ timeout: 3000 });
 
     // 알림 닫기 버튼 클릭
     // notification은 AlertTitle이므로, 부모 Alert 컴포넌트에서 button 찾기
@@ -59,11 +48,12 @@ test.describe('알림 시스템', () => {
   });
 
   test('알림 아이콘 표시', async ({ page }) => {
-    const { startTimeStr, endTimeStr } = getTimeAfterMinutes(10);
+    const startTimeStr = '10:00';
+    const endTimeStr = '11:00';
 
     // 알림이 설정된 일정 생성
     await page.fill('input[placeholder="제목"]', '항해 과제 제출하기');
-    await page.fill('input[placeholder="날짜"]', getTodayDate());
+    await page.fill('input[placeholder="날짜"]', '2025-10-15');
     await page.fill('input[placeholder="시작 시간"]', startTimeStr);
     await page.fill('input[placeholder="종료 시간"]', endTimeStr);
     await page.click('[aria-label="알림 설정"]');
@@ -73,9 +63,11 @@ test.describe('알림 시스템', () => {
     // 일정이 서버에 저장되고 events가 업데이트될 때까지 대기
     await page.waitForTimeout(500);
 
-    // 알림이 표시될 때까지 대기 (알림이 표시되어야 notifiedEvents에 추가되고 아이콘이 표시됨)
+    // 알림이 표시될 때까지 대기
+    await page.clock.runFor(1000);
+
     const notification = page.locator('text=10분 후 항해 과제 제출하기 일정이 시작됩니다.');
-    await expect(notification).toBeVisible({ timeout: 5000 });
+    await expect(notification).toBeVisible({ timeout: 3000 });
 
     // 월간 뷰에서 알림 아이콘 확인
     const monthView = page.locator('[data-testid="month-view"]');
