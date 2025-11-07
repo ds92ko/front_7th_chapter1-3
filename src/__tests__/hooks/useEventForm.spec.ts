@@ -4,7 +4,6 @@ import { ChangeEvent } from 'react';
 import { useEventForm } from '@/hooks/useEventForm';
 import { Event } from '@/types';
 
-// NOTE: 심화 과제 추가 테스트
 describe('초기 상태', () => {
   // NOTE: 심화 과제 추가 테스트
   it('initialEvent가 없을 때 모든 필드가 기본값으로 초기화되어야 한다', () => {
@@ -91,7 +90,6 @@ describe('초기 상태', () => {
   });
 });
 
-// NOTE: 심화 과제 추가 테스트
 describe('필드 업데이트', () => {
   // NOTE: 심화 과제 추가 테스트
   it('setData.title으로 제목을 업데이트할 수 있어야 한다', () => {
